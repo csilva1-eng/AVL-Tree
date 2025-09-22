@@ -11,11 +11,12 @@ class AVL
 private:
     struct TreeNode
     {
-        int val;
+        int UFID;
+        std::string name;
         int balance_factor;
         TreeNode *left;
         TreeNode *right;
-        TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+        TreeNode(int x, int y, const std::string& s) : UFID(x), name(s), balance_factor(y), left(nullptr), right(nullptr){}
     };
 
     TreeNode* root = nullptr;

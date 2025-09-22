@@ -18,14 +18,56 @@ std::vector<int> AVL::insertNameId(TreeNode *node, std::string& name, int UFid){
   return res;
 }
 
-std::vector<int> AVL::removeId(TreeNode* node, int UFid){}
-std::string AVL::searchID(AVL::TreeNode* node, int UFid){}
-std::vector<std::string> AVL::searchName(AVL::TreeNode* node, std::string& name){}
-std::vector<std::string> AVL::printInorder(AVL::TreeNode* node){}
-std::vector<std::string> AVL::printPreorder(AVL::TreeNode* node){}
-std::vector<std::string> AVL::printPostorder(AVL::TreeNode* node){}
-std::vector<int> AVL::printLevelCount(AVL::TreeNode* node){}
-std::vector<int> AVL::removeInorderN(AVL::TreeNode* node){}
+std::vector<int> AVL::removeId(TreeNode* node, int UFid){
+    std::vector<int> res;
+    std::cout<<"Enter name of AVL"<<std::endl;
+    return res;
+}
+std::string AVL::searchID(AVL::TreeNode* node, int UFid){
+    std::string foundName;
+    TreeNode* current = node;
+
+    while(current && current->UFID != UFid){
+      if(current->UFID > UFid){
+        current = current->left;
+      } else {
+        current = current->right;
+      }
+    }
+
+    foundName = current->name;
+    return foundName;
+}
+std::vector<std::string> AVL::searchName(AVL::TreeNode* node, std::string& name){
+    std::vector<std::string> res;
+    std::cout<<"Enter name of AVL"<<std::endl;
+    return res;
+}
+std::vector<std::string> AVL::printInorder(AVL::TreeNode* node){
+    std::vector<std::string> res;
+    std::cout<<"Enter name of AVL"<<std::endl;
+    return res;
+}
+std::vector<std::string> AVL::printPreorder(AVL::TreeNode* node){
+    std::vector<std::string> res;
+    std::cout<<"Enter name of AVL"<<std::endl;
+    return res;
+}
+std::vector<std::string> AVL::printPostorder(AVL::TreeNode* node){
+    std::vector<std::string> res;
+    std::cout<<"Enter name of AVL"<<std::endl;
+    return res;
+}
+std::vector<int> AVL::printLevelCount(AVL::TreeNode* node){
+    std::vector<int> res;
+    std::cout<<"Enter name of AVL"<<std::endl;
+    return res;
+}
+std::vector<int> AVL::removeInorderN(AVL::TreeNode* node){
+    std::vector<int> res;
+    std::cout<<"Enter name of AVL"<<std::endl;
+    return res;
+}
 
 
 void AVL::del(int key) {
