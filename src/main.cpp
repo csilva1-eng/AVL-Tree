@@ -1,8 +1,9 @@
-#include <iostream>
+#include<iostream>
+#include "AVL.h"
 
-using namespace std;
 
-int main(){
-	cout << "Hello AVL!\n";
-	return 0;
+int main()
+{
+	AVL myAVL;
+	myAVL.inorder();
 }
