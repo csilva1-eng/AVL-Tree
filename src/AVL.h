@@ -31,11 +31,15 @@ public:
     std::vector<int> insertNameId(TreeNode* root, std::string& name, int UFid);
     std::vector<int> removeId(TreeNode* root, int UFid);
     std::string searchID(TreeNode* root, int UFid);
-    std::vector<std::string> searchName(TreeNode* root, std::string& name);
+    std::vector<std::string> searchName(TreeNode* root, std::string name);
+    void recSearchName(TreeNode* node, std::string name, std::vector<std::string>& names);
     std::vector<std::string> printInorder(TreeNode* root);
+    void recPrintInorder(TreeNode* node, std::vector<std::string>& names);
     std::vector<std::string> printPreorder(TreeNode* root);
+    void recPrintPreorder(TreeNode* node, std::vector<std::string>& names);
     std::vector<std::string> printPostorder(TreeNode* root);
-    std::vector<int> printLevelCount(TreeNode* root);
+    void recPrintPostorder(TreeNode* node, std::vector<std::string>& names);
+    int printLevelCount(TreeNode* root);
     std::vector<int> removeInorderN(TreeNode* root);
 
 };

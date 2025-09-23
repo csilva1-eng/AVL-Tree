@@ -24,7 +24,7 @@ std::vector<int> AVL::removeId(TreeNode* node, int UFid){
     return res;
 }
 std::string AVL::searchID(AVL::TreeNode* node, int UFid){
-    std::string foundName;
+    std::string foundName = "";
     TreeNode* current = node;
 
     while(current && current->UFID != UFid){
@@ -34,35 +34,113 @@ std::string AVL::searchID(AVL::TreeNode* node, int UFid){
         current = current->right;
       }
     }
-
-    foundName = current->name;
+    if(current->UFID == UFid){
+      foundName = current->name;
+      std::cout<< foundName <<std::endl;
+      return foundName;
+    }
+    std::cout<<"unsuccessful"<<std::endl;
     return foundName;
 }
-std::vector<std::string> AVL::searchName(AVL::TreeNode* node, std::string& name){
-    std::vector<std::string> res;
-    std::cout<<"Enter name of AVL"<<std::endl;
-    return res;
+std::vector<std::string> AVL::searchName(AVL::TreeNode* node, std::string name){ //NLR
+    std::vector<std::string> names;
+
+    TreeNode* current = node;
+
+    recSearchName(current, name, names);
+
+    return names;
 }
+
+void AVL::recSearchName(AVL::TreeNode* node, std::string name, std::vector<std::string>& names){
+  if(!node){
+    return;
+  }
+
+  TreeNode* current = node;
+
+  if(current->name == name){
+    names.push_back(current->name);
+    std::cout<< current->name <<std::endl;
+  }
+
+  recSearchName(current->left, name, names);
+  recSearchName(current->right, name, names);
+
+}
+
+
 std::vector<std::string> AVL::printInorder(AVL::TreeNode* node){
-    std::vector<std::string> res;
-    std::cout<<"Enter name of AVL"<<std::endl;
-    return res;
+    std::vector<std::string> names;
+
+    TreeNode* current = node;
+
+    recPrintInorder(node, names);
+    return names;
 }
+
+void AVL::recPrintInorder(AVL::TreeNode* node, std::vector<std::string>& names){
+  if(!node){
+    return;
+  }
+
+  recPrintInorder(node->left, names);
+
+  names.push_back(node->name);
+  std::cout<< node->name <<std::endl;
+
+  recPrintInorder(node->right, names);
+}
+
 std::vector<std::string> AVL::printPreorder(AVL::TreeNode* node){
-    std::vector<std::string> res;
-    std::cout<<"Enter name of AVL"<<std::endl;
-    return res;
+    std::vector<std::string> names;
+
+    TreeNode* current = node;
+
+    recPrintPreorder(current, names);
+    return names;
 }
+
+void AVL::recPrintPreorder(AVL::TreeNode* node, std::vector<std::string>& names){
+  if(!node){
+    return;
+  }
+
+  names.push_back(node->name);
+  std::cout<< node->name <<std::endl;
+
+  recPrintPreorder(node->left, names);
+  recPrintPreorder(node->right, names);
+
+}
+
+
 std::vector<std::string> AVL::printPostorder(AVL::TreeNode* node){
-    std::vector<std::string> res;
-    std::cout<<"Enter name of AVL"<<std::endl;
-    return res;
+    std::vector<std::string> names;
+
+    TreeNode* current = node;
+    recPrintPostorder(current, names);
+    return names;
 }
-std::vector<int> AVL::printLevelCount(AVL::TreeNode* node){
-    std::vector<int> res;
-    std::cout<<"Enter name of AVL"<<std::endl;
-    return res;
+
+void AVL::recPrintPostorder(AVL::TreeNode* node, std::vector<std::string>& names){
+  if(!node){
+    return;
+  }
+
+  recPrintPostorder(node->left, names);
+  recPrintPostorder(node->right, names);
+  names.push_back(node->name);
+  std::cout<< node->name <<std::endl;
+
+
 }
+
+int AVL::printLevelCount(AVL::TreeNode* node){
+    if(!node) return 0;
+    return 1 + std::max(printLevelCount(node->left), printLevelCount(node->right));
+}
+
 std::vector<int> AVL::removeInorderN(AVL::TreeNode* node){
     std::vector<int> res;
     std::cout<<"Enter name of AVL"<<std::endl;
