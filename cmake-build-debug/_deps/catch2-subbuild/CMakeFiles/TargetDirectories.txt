@@ -1,0 +1,3 @@
+/Users/christophersilva/CLionProjects/P1-Catch-Templatecsilva/cmake-build-debug/_deps/catch2-subbuild/CMakeFiles/catch2-populate.dir
+/Users/christophersilva/CLionProjects/P1-Catch-Templatecsilva/cmake-build-debug/_deps/catch2-subbuild/CMakeFiles/edit_cache.dir
+/Users/christophersilva/CLionProjects/P1-Catch-Templatecsilva/cmake-build-debug/_deps/catch2-subbuild/CMakeFiles/rebuild_cache.dir
