@@ -263,6 +263,7 @@ std::vector<int> AVL::searchNameTEST(TreeNode* node, std::string name){ //NLR th
 
 void AVL::recSearchName(AVL::TreeNode* node, std::string name, std::vector<int>& UFids){
   if(!node){
+    std::cout<<"unsuccessful"<<std::endl;
     return;
   }
 

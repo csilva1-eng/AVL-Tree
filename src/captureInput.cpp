@@ -124,22 +124,24 @@ void captureInput::handleRemoveInorder(std::string input){
 
 
 void captureInput::handleSearch(std::string input){
-  std::string name;
+  std::string check = input;
   if (input[0] == '\"') {
     input = input.substr(1);
     if (input.find_first_of('\"') != std::string::npos) {
-      name = input.substr(0, input.find_first_of('\"'));
+      check = input.substr(0, input.find_first_of('\"'));
     } else {
       badInput();
       return;
     }
   }
-  std::cout << name << std::endl;
+
+  input = check;
   bool isName = true;
   bool isId = true;
-  for(auto i : name){
+  for(auto i : input){
     if(!isalpha(i) && i != ' '){ isName = false;}
   }
+
 
   for(auto i : input){
     if(isalpha(i) || i == ' '){ isId = false;}
@@ -147,10 +149,11 @@ void captureInput::handleSearch(std::string input){
 
   if(!isName && !isId){ badInput(); return;}
 
+
   if(isId){
     tree.search("", std::stoi(input), 0);
     } else if(isName){
-      tree.search(name, 0, 1);
+      tree.search(input, 0, 1);
     }
 
 }
