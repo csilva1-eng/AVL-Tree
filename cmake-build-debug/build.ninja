@@ -63,6 +63,13 @@ build CMakeFiles/Main.dir/src/AVL.cpp.o: CXX_COMPILER__Main_unscanned_Debug /Use
   OBJECT_DIR = CMakeFiles/Main.dir
   OBJECT_FILE_DIR = CMakeFiles/Main.dir/src
 
+build CMakeFiles/Main.dir/src/captureInput.cpp.o: CXX_COMPILER__Main_unscanned_Debug /Users/christophersilva/CLionProjects/P1-Catch-Templatecsilva/src/captureInput.cpp || cmake_object_order_depends_target_Main
+  DEP_FILE = CMakeFiles/Main.dir/src/captureInput.cpp.o.d
+  FLAGS = -Wall -Werror -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/christophersilva/CLionProjects/P1-Catch-Templatecsilva/src
+  OBJECT_DIR = CMakeFiles/Main.dir
+  OBJECT_FILE_DIR = CMakeFiles/Main.dir/src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Main
@@ -71,7 +78,7 @@ build CMakeFiles/Main.dir/src/AVL.cpp.o: CXX_COMPILER__Main_unscanned_Debug /Use
 #############################################
 # Link the executable Main
 
-build Main: CXX_EXECUTABLE_LINKER__Main_Debug CMakeFiles/Main.dir/src/main.cpp.o CMakeFiles/Main.dir/src/AVL.cpp.o
+build Main: CXX_EXECUTABLE_LINKER__Main_Debug CMakeFiles/Main.dir/src/main.cpp.o CMakeFiles/Main.dir/src/AVL.cpp.o CMakeFiles/Main.dir/src/captureInput.cpp.o
   FLAGS = -Wall -Werror -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk
   OBJECT_DIR = CMakeFiles/Main.dir
   POST_BUILD = :
@@ -102,6 +109,13 @@ build CMakeFiles/Tests.dir/src/AVL.cpp.o: CXX_COMPILER__Tests_unscanned_Debug /U
   OBJECT_DIR = CMakeFiles/Tests.dir
   OBJECT_FILE_DIR = CMakeFiles/Tests.dir/src
 
+build CMakeFiles/Tests.dir/src/captureInput.cpp.o: CXX_COMPILER__Tests_unscanned_Debug /Users/christophersilva/CLionProjects/P1-Catch-Templatecsilva/src/captureInput.cpp || cmake_object_order_depends_target_Tests
+  DEP_FILE = CMakeFiles/Tests.dir/src/captureInput.cpp.o.d
+  FLAGS = -Wall -Werror -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/christophersilva/CLionProjects/P1-Catch-Templatecsilva/src -I/Users/christophersilva/CLionProjects/P1-Catch-Templatecsilva/cmake-build-debug/_deps/catch2-src/src/catch2/.. -I/Users/christophersilva/CLionProjects/P1-Catch-Templatecsilva/cmake-build-debug/_deps/catch2-build/generated-includes
+  OBJECT_DIR = CMakeFiles/Tests.dir
+  OBJECT_FILE_DIR = CMakeFiles/Tests.dir/src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Tests
@@ -110,7 +124,7 @@ build CMakeFiles/Tests.dir/src/AVL.cpp.o: CXX_COMPILER__Tests_unscanned_Debug /U
 #############################################
 # Link the executable Tests
 
-build Tests Tests-b12d07c_tests.cmake | ${cmake_ninja_workdir}Tests-b12d07c_tests.cmake: CXX_EXECUTABLE_LINKER__Tests_Debug CMakeFiles/Tests.dir/test/test.cpp.o CMakeFiles/Tests.dir/src/AVL.cpp.o | _deps/catch2-build/src/libCatch2Maind.a _deps/catch2-build/src/libCatch2d.a || _deps/catch2-build/src/libCatch2Maind.a _deps/catch2-build/src/libCatch2d.a
+build Tests Tests-b12d07c_tests.cmake | ${cmake_ninja_workdir}Tests-b12d07c_tests.cmake: CXX_EXECUTABLE_LINKER__Tests_Debug CMakeFiles/Tests.dir/test/test.cpp.o CMakeFiles/Tests.dir/src/AVL.cpp.o CMakeFiles/Tests.dir/src/captureInput.cpp.o | _deps/catch2-build/src/libCatch2Maind.a _deps/catch2-build/src/libCatch2d.a || _deps/catch2-build/src/libCatch2Maind.a _deps/catch2-build/src/libCatch2d.a
   FLAGS = -Wall -Werror -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk
   LINK_LIBRARIES = _deps/catch2-build/src/libCatch2Maind.a  _deps/catch2-build/src/libCatch2d.a
   OBJECT_DIR = CMakeFiles/Tests.dir

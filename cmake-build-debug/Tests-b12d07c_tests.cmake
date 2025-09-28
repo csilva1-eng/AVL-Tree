@@ -8,4 +8,6 @@ add_test( [==[Remove x amount]==] /Users/christophersilva/CLionProjects/P1-Catch
 set_tests_properties( [==[Remove x amount]==] PROPERTIES WORKING_DIRECTORY /Users/christophersilva/CLionProjects/P1-Catch-Templatecsilva/cmake-build-debug)
 add_test( [==[insert 100, del 10]==] /Users/christophersilva/CLionProjects/P1-Catch-Templatecsilva/cmake-build-debug/Tests [==[insert 100\, del 10]==]  )
 set_tests_properties( [==[insert 100, del 10]==] PROPERTIES WORKING_DIRECTORY /Users/christophersilva/CLionProjects/P1-Catch-Templatecsilva/cmake-build-debug)
-set( Tests_TESTS [==[insert x vals]==] [==[insert command and 4 rotation case]==] [==[insert 100]==] [==[Remove x amount]==] [==[insert 100, del 10]==])
+add_test( [==[remove Nth order val]==] /Users/christophersilva/CLionProjects/P1-Catch-Templatecsilva/cmake-build-debug/Tests [==[remove Nth order val]==]  )
+set_tests_properties( [==[remove Nth order val]==] PROPERTIES WORKING_DIRECTORY /Users/christophersilva/CLionProjects/P1-Catch-Templatecsilva/cmake-build-debug)
+set( Tests_TESTS [==[insert x vals]==] [==[insert command and 4 rotation case]==] [==[insert 100]==] [==[Remove x amount]==] [==[insert 100, del 10]==] [==[remove Nth order val]==])
