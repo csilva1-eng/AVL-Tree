@@ -52,6 +52,7 @@ public:
 
     TreeNode* recInsertNameId(TreeNode *root, std::string name, int UFid);
     TreeNode* removeId(TreeNode* root, int UFid);
+    TreeNode* removeSuccessorId(TreeNode* node, int UFid); //only here to avoid saying success twice
     TreeNode* handleRemove(TreeNode* node);
     TreeNode* findInorderSuccessor(TreeNode* node);
     TreeNode* removeInorderN(TreeNode* root, int N, int &count);

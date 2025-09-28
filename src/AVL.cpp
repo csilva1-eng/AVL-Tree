@@ -136,8 +136,8 @@ AVL::TreeNode* AVL::removeId(TreeNode* node, int UFid){ // recursively search to
       node->left = removeId(node->left, UFid);
       updateHeight(node);
     } else {
-      std::cout << "successful" << std::endl;
       node = handleRemove(node); //handle removal cases in different function
+      std::cout << "successful" << std::endl;
     }
 
     return node;
@@ -157,9 +157,28 @@ AVL::TreeNode* AVL::handleRemove(TreeNode* node){ //handles all three removal ca
     TreeNode* successorNode = findInorderSuccessor(node);
     node->UFID = successorNode->UFID;
     node->name = successorNode->name;
-    node->right = removeId(node->right, successorNode->UFID);
+    node->right = removeSuccessorId(node->right, successorNode->UFID);
     return node;
 
+}
+
+AVL::TreeNode* AVL::removeSuccessorId(TreeNode* node, int UFid){ // this is to remove successor (really to avoid saying success twice)
+  if(!node ) {
+    std::cout << "unsuccessful" << std::endl;
+    return node;
+  }
+
+  if(node->UFID < UFid) {
+    node->right = removeId(node->right, UFid);
+    updateHeight(node);
+  } else if(node->UFID > UFid) {
+    node->left = removeId(node->left, UFid);
+    updateHeight(node);
+  } else {
+    node = handleRemove(node); //handle removal cases in different function
+  }
+
+  return node;
 }
 
 AVL::TreeNode* AVL::findInorderSuccessor(TreeNode* node){ //find inorder successor for removal cases
