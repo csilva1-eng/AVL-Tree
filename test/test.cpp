@@ -2,52 +2,36 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-// uncomment and replace the following with your own headers
 #include <random>
-#include <utility>
 
 #include "AVL.h"
 
 using namespace std;
+std::string generate_random_string(size_t length);
 
-// the syntax for defining a test is below. It is important for the name to be unique, but you can group multiple tests with [tags]. A test can have [multiple][tags] using that syntax.
 
+TEST_CASE("Five Inc Commands", "[checkin]") {
+	AVL tree;
 
-// TEST_CASE("Five Inc Commands", "[checkin]") {
-// 	AVL tree;
-//
-// 	SECTION("insert bad name") {
-// 		REQUIRE_THROWS_AS(tree.insert("90210song", 11111111), std::invalid_argument);
-// 	}
-//
-// 	SECTION("insert short UFID") {
-// 		REQUIRE_THROWS_AS(tree.insert("chris", 0), std::invalid_argument);
-// 	}
-//
-// 	SECTION("insert long UFID") {
-// 		REQUIRE_THROWS_AS(tree.insert("chris", 100000000), std::invalid_argument);
-// 	}
-//
-// 	SECTION("insert incorrect UFID") {
-// 		REQUIRE_THROWS_AS(tree.insert("chris", -19203929), std::invalid_argument);
-// 	}
-//
-// 	SECTION("insert bad UFID and bad name") {
-// 		REQUIRE_THROWS_AS(tree.insert("this((bad(@)name", 1), std::invalid_argument);
-// 	}
-// }
-std::string generate_random_string(size_t length) {
-	const std::string characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	std::random_device random_device;
-	std::mt19937 generator(random_device());
-	std::uniform_int_distribution<> distribution(0, characters.size() - 1);
-
-	std::string random_string;
-	for (size_t i = 0; i < length; ++i) {
-		random_string += characters[distribution(generator)];
+	SECTION("insert bad name") {
+		REQUIRE_THROWS_AS(tree.insert("90210song", 11111111), std::invalid_argument);
 	}
 
-	return random_string;
+	SECTION("insert short UFID") {
+		REQUIRE_THROWS_AS(tree.insert("chris", 0), std::invalid_argument);
+	}
+
+	SECTION("insert long UFID") {
+		REQUIRE_THROWS_AS(tree.insert("chris", 100000000), std::invalid_argument);
+	}
+
+	SECTION("insert incorrect UFID") {
+		REQUIRE_THROWS_AS(tree.insert("chris", -19203929), std::invalid_argument);
+	}
+
+	SECTION("insert bad UFID and bad name") {
+		REQUIRE_THROWS_AS(tree.insert("this((bad(@)name", 1), std::invalid_argument);
+	}
 }
 
 TEST_CASE("insert x vals", "[testing]") {
@@ -207,20 +191,39 @@ TEST_CASE("insert 100, del 10", "[testingR10]") {
 		for (int i = 0; i < 90; i++) REQUIRE(expectedOutput[i].first == actualOutput[i]);
 
 }
-//
+
+TEST_CASE("remove Nth order val", "[testingNth]") {
+	AVL tree;
+	tree.insert("kathering", 20000000);
+	tree.insert("Antony", 30000000);
+	tree.insert("bleh", 23490391);
+	tree.insert("satw", 99332211);
+	tree.insert("apweo", 29999900);
+
+
+	std::vector<string> actualOutput = tree.printInorder();
+	std::vector<string> expectedOutput = {"kathering", "bleh", "apweo", "Antony", "satw"};
+
+	tree.removeNth(3);
+
+	actualOutput = tree.printInorder();
+	expectedOutput = {"kathering", "bleh", "Antony", "satw"};
+	REQUIRE(actualOutput.size() == expectedOutput.size());
+	REQUIRE(actualOutput == expectedOutput);
+}
 // // you must write 5 unique, meaningful tests for credit on the testing portion of this project!
-//
-// // the provided test from the template is below.
-//
-// TEST_CASE("Example BST Insert", "[flag]"){
-// 	/*
-// 		MyAVLTree tree;   // Create a Tree object
-// 		tree.insert(3);
-// 		tree.insert(2);
-// 		tree.insert(1);
-// 		std::vector<int> actualOutput = tree.inorder();
-// 		std::vector<int> expectedOutput = {1, 2, 3};
-// 		REQUIRE(expectedOutput.size() == actualOutput.size());
-// 		REQUIRE(actualOutput == expectedOutput);
-// 	*/
-// }
+
+
+std::string generate_random_string(size_t length) {
+	const std::string characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	std::random_device random_device;
+	std::mt19937 generator(random_device());
+	std::uniform_int_distribution<> distribution(0, characters.size() - 1);
+
+	std::string random_string;
+	for (size_t i = 0; i < length; ++i) {
+		random_string += characters[distribution(generator)];
+	}
+
+	return random_string;
+}
