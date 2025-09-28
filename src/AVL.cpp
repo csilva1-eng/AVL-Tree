@@ -2,16 +2,13 @@
 #include <iostream>
 
 
-/*
-Case		Balance Factor			Rotation
-(Alignment)	Parent		Child
-Left Left	+2			+1			Right
-Right Right	-2			-1			Left
-Left Right	 +2			-1			Left Right
-Right Left	 -2			+1			Right Left
-*/
-// Treenode( ufid, balance_factor, name)
+
+//===================================================BALANCING STUFF==================================================//
 AVL::TreeNode* AVL::balanceTree(TreeNode* node) {
+  if (!node) {
+    return node;
+  }
+  updateHeight(node);
     int balanceParent = 0;
     int balanceChildR = 0;
     int balanceChildL = 0;
@@ -25,10 +22,10 @@ AVL::TreeNode* AVL::balanceTree(TreeNode* node) {
     } else if(balanceParent == -2 && balanceChildR == -1) {
       node = rotateLeft(node);
     } else if(balanceParent == 2 && balanceChildL == -1) {
-      node = rotateLeft(node);
+      node->left = rotateLeft(node->left);
       node = rotateRight(node);
     } else if(balanceParent == -2 && balanceChildR == 1) {
-      node = rotateRight(node);
+      node->right = rotateRight(node->right);
       node = rotateLeft(node);
     }
 
@@ -52,7 +49,7 @@ void AVL::updateHeight(TreeNode* node) {
 }
 
 AVL::TreeNode* AVL::rotateRight(TreeNode* node) {
-  if (!node || !node->left || !node->right) return node;
+  if (!node || !node->left) return node;
   TreeNode* newParent = node->left;
   TreeNode* temp = newParent->right;
 
@@ -66,7 +63,7 @@ AVL::TreeNode* AVL::rotateRight(TreeNode* node) {
 }
 
 AVL::TreeNode* AVL::rotateLeft(TreeNode* node) {
-  if (!node || !node->left || !node->right) return node;
+  if (!node || !node->right) return node;
   TreeNode* newParent = node->right;
   TreeNode* temp = newParent->left;
   newParent->left = node;
@@ -78,22 +75,36 @@ AVL::TreeNode* AVL::rotateLeft(TreeNode* node) {
   return newParent;
 }
 
-/*
+//===================================================END BALANCING STUFF===============================================//
 
-rotateLeft (node)
-{
-grandchild = node->right->left;
-newParent = node->right;
-newParent->left = node;
-node->right = grandchild;
-return newParent;
+
+//===================================================INSERT/REMOVE STUFF==============================================//
+
+
+bool AVL::checkString(std::string name) {
+  for(auto i : name){
+    if(!isalpha(i) && i != ' '){ std::cout << "unsuccessful" << std::endl; return false;}
+  }
+  return true;
 }
- */
+
+bool AVL::checkInt(int UFid) {
+  int count = 0;
+  int checker = UFid;
+
+  while(checker > 0) {
+    checker = checker / 10;
+    count++;
+  }
+
+  if (count != 8) {std::cout << "unsuccessful" <<  std::endl; return false;}
+  return true;
+}
+
 
 
 AVL::TreeNode* AVL::recInsertNameId(TreeNode *node, std::string name, int UFid){
   if(!node) {
-    std::cout << "inserted " << name << std::endl;
     std::cout << "successful" << std::endl;
     return new TreeNode(UFid, 1, name);
   }
@@ -110,16 +121,7 @@ AVL::TreeNode* AVL::recInsertNameId(TreeNode *node, std::string name, int UFid){
   updateHeight(node);
   return balanceTree(node);
 }
-/*
-Find and remove the account with the specified ID from the tree.
-[Optional: Balance the tree automatically if necessary.
-We will test your code only on cases where the tree will be balanced before and after the deletion.
-So you can implement a BST deletion and still get full credit]
-If deletion is successful, print ““successful.”
-If the ID does not exist within the tree, print “unsuccessful.”
-You must prioritize replacing a removed node with its inorder successor for the
-case where the deleted node has two children.
- */
+
 
 AVL::TreeNode* AVL::removeId(TreeNode* node, int UFid){
     if(!node ) {
@@ -135,7 +137,6 @@ AVL::TreeNode* AVL::removeId(TreeNode* node, int UFid){
       updateHeight(node);
     } else {
       std::cout << "successful" << std::endl;
-      std::cout << "removed " << node->name << std::endl;
       node = handleRemove(node);
     }
 
@@ -152,23 +153,13 @@ AVL::TreeNode* AVL::handleRemove(TreeNode* node){
     TreeNode* childNode = node->right ? node->right : node->left;
     delete node;
     return childNode;
-  } else{
-     //  TreeNode* successorNode = node->right;
-     // if(successorNode->left){
-     //         successorNode = findInorderSuccessor(node);
-     //   }
-     //   if(successorNode->UFID == node->right->UFID){
-     //     successorNode->right = node->right->right;
-     //   } else {
-     //
-     //     successorNode->right = node->right; // but what happens to successor nodes original right if it has to find successor?
-     //    }
+  }
     TreeNode* successorNode = findInorderSuccessor(node);
     node->UFID = successorNode->UFID;
     node->name = successorNode->name;
     node->right = removeId(node->right, successorNode->UFID);
     return node;
-  }
+
 }
 
 AVL::TreeNode* AVL::findInorderSuccessor(TreeNode* node){
@@ -181,6 +172,27 @@ AVL::TreeNode* AVL::findInorderSuccessor(TreeNode* node){
   return node;
 
 }
+
+AVL::TreeNode* AVL::removeInorderN(TreeNode* node, int N, int &count){
+  if (!node) {
+    return nullptr;
+  }
+  if (node) count++;
+  if (count == N) {
+    node = removeId(node, node->UFID);
+    return node;
+  }
+  node->left = removeInorderN(node->left, N, count);
+  node->right = removeInorderN(node->right, N, count);
+
+  return node;
+}
+
+//===================================================END INSERT/REMOVE STUFF==========================================//
+
+
+
+//===================================================SEARCH STUFF=====================================================//
 
 void AVL::searchID(AVL::TreeNode* node, int UFid){
     std::string foundName = "";
@@ -222,26 +234,34 @@ std::string AVL::searchIDTEST(AVL::TreeNode* node, int UFid){
 }
 
 void AVL::searchName(AVL::TreeNode* node, std::string name){ //NLR
-    std::vector<std::string> names;
+    std::vector<int> UFids;
 
     TreeNode* current = node;
 
-    recSearchName(current, name, names);
+    recSearchName(current, name, UFids);
+
+  for (auto number : UFids) {
+    std::cout << number << std::endl;
+  }
 
 
 }
 
-std::vector<std::string> AVL::searchNameTEST(TreeNode* node, std::string name){ //NLR
-  std::vector<std::string> names;
+std::vector<int> AVL::searchNameTEST(TreeNode* node, std::string name){ //NLR
+  std::vector<int> UFids;
 
   TreeNode* current = node;
 
-  recSearchName(current, name, names);
+  recSearchName(current, name, UFids);
 
-  return names;
+  for (auto number : UFids) {
+    std::cout << number << std::endl;
+  }
+
+  return UFids;
 }
 
-void AVL::recSearchName(AVL::TreeNode* node, std::string name, std::vector<std::string>& names){
+void AVL::recSearchName(AVL::TreeNode* node, std::string name, std::vector<int>& UFids){
   if(!node){
     return;
   }
@@ -249,20 +269,28 @@ void AVL::recSearchName(AVL::TreeNode* node, std::string name, std::vector<std::
   TreeNode* current = node;
 
   if(current->name == name){
-    names.push_back(current->name);
-    std::cout<< current->name <<std::endl;
+    UFids.push_back(current->UFID);
   }
 
-  recSearchName(current->left, name, names);
-  recSearchName(current->right, name, names);
+  recSearchName(current->left, name, UFids);
+  recSearchName(current->right, name, UFids);
 
 }
 
+//===================================================END SEARCH STUFF=================================================//
+
+
+//===================================================PRINT STUFF=======================================================//
 
 std::vector<std::string> AVL::printInorder(){
     std::vector<std::string> names;
 
     recPrintInorder(this->root, names);
+
+  for (int i = 0; i < names.size(); i++) {
+    if (i != names.size() - 1) {std::cout<< names[i] << ", ";}
+    else {std::cout<< names[i] << std::endl;}
+  }
     return names;
 }
 
@@ -274,7 +302,6 @@ void AVL::recPrintInorder(TreeNode* node, std::vector<std::string>& names){
   recPrintInorder(node->left, names);
 
   names.push_back(node->name);
-  std::cout<< node->name <<std::endl;
 
   recPrintInorder(node->right, names);
 }
@@ -283,6 +310,10 @@ std::vector<std::string> AVL::printPreorder(){
     std::vector<std::string> names;
 
     recPrintPreorder(this->root, names);
+  for (int i = 0; i < names.size(); i++) {
+    if (i != names.size() - 1) {std::cout<< names[i] << ", ";}
+    else {std::cout<< names[i] << std::endl;}
+  }
     return names;
 }
 
@@ -292,7 +323,6 @@ void AVL::recPrintPreorder(TreeNode* node, std::vector<std::string>& names){
   }
 
   names.push_back(node->name);
-  std::cout<< node->name <<std::endl;
 
   recPrintPreorder(node->left, names);
   recPrintPreorder(node->right, names);
@@ -304,6 +334,11 @@ std::vector<std::string> AVL::printPostorder(){
     std::vector<std::string> names;
 
     recPrintPostorder(this->root, names);
+
+  for (int i = 0; i < names.size(); i++) {
+    if (i != names.size() - 1) {std::cout<< names[i] << ", ";}
+    else {std::cout<< names[i] << std::endl;}
+  }
     return names;
 }
 
@@ -315,30 +350,19 @@ void AVL::recPrintPostorder(TreeNode* node, std::vector<std::string>& names){
   recPrintPostorder(node->left, names);
   recPrintPostorder(node->right, names);
   names.push_back(node->name);
-  std::cout<< node->name <<std::endl;
 
 
 }
 
-int AVL::printLevelCount(AVL::TreeNode* node){
-    if(!node) return 0;
-    return 1 + std::max(printLevelCount(node->left), printLevelCount(node->right));
+int AVL::printLevelCount(TreeNode* node){
+
+  return node ? node->height: 0;
 }
 
-AVL::TreeNode* AVL::removeInorderN(TreeNode* node, int N, int &count){
-  if (!node) {
-    return nullptr;
-  }
-  if (node) count++;
-  if (count == N) {
-    node = removeId(node, node->UFID);
-    return node;
-  }
-  node->left = removeInorderN(node->left, N, count);
-  node->right = removeInorderN(node->right, N, count);
 
-  return node;
-}
+//===================================================END PRINT STUFF==================================================//
+
+
 
 
 

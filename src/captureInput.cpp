@@ -4,17 +4,26 @@
 #include <cctype>
 #include "captureInput.h"
 
+
+//===================================================GRAB FROM CONSOLE STUFF==========================================//
+
 captureInput::captureInput(){
   runXTimes = 0;
   }
 
 void captureInput::setRunXTimes(){
-  std::cin >> runXTimes;
+  std::string firstLine = "";
+  std::getline(std::cin, firstLine);
+  for(auto i : firstLine){
+    if(isalpha(i) || i == ' '){ badInput(); runXTimes = 0; return;}
+
+  }
+  runXTimes = std::stoi(firstLine);
 }
 
 
 std::vector<std::string> captureInput::getInstructions(){
-  std::cin.ignore(); //ignore \n from number ( wow !)
+  if (runXTimes == 0){return instructions;}
 
   for(int i = 0; i < runXTimes; i++){
     std::string input;
@@ -28,12 +37,14 @@ std::vector<std::string> captureInput::getInstructions(){
 
 
 void captureInput::determineInstructions(){
+  if (instructions.size() == 0){return;}
    for(std::string input : instructions){
      int firstSpace = input.find_first_of(' ');
      std::string orderGiven = input.substr(0, firstSpace);
 
+
      if(orderGiven == "insert"){
-       handleInsert(input.substr(firstSpace+2));
+       handleInsert(input.substr(firstSpace+1));
      } else if(orderGiven == "remove"){
        handleRemove(input.substr(firstSpace+1));
      } else if(orderGiven == "removeInorder"){
@@ -54,10 +65,25 @@ void captureInput::determineInstructions(){
    }
 }
 
+//===================================================END GRAB FROM CONSOLE STUFF======================================//
+
+
+
+//===================================================BEGIN HANDLERS STUFF=============================================//
+
 void captureInput::handleInsert(std::string input){
   int firstSpace = input.find_first_of(' ');
-  std::string name = input.substr(0, firstSpace - 1);
-  input = input.substr(firstSpace +1);
+  if (firstSpace == std::string::npos || input[0] != '\"' || input.find_last_of('\"') == 0) {
+    std::cout << "unsuccessful" << std::endl;
+    return;
+  }
+
+
+  std::string name = input.substr(1, firstSpace-2);
+  std::string check = input.substr(firstSpace);
+  if (check.length() >= 8) {
+    input = input.substr(firstSpace+1);
+  }
 
   for(auto i : name){
     if(!isalpha(i) && i != ' '){ badInput(); return;}
@@ -121,7 +147,7 @@ void captureInput::handleSearch(std::string input){
 }
 
 void captureInput::badInput(){
-  std::cout << "unsuccessful" << std::endl;
+  std::cout << "unsuccessful in bad input" << std::endl;
 }
 
 

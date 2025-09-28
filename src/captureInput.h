@@ -14,15 +14,21 @@ class captureInput
 
   std::vector<std::string> instructions;
 
-  std::vector<std::string> options = {"insert", "remove", "removeInorder", "printInorder", "printPreorder", "printPostorder", "printLevelCount", "search"};
 
   public:
 
     captureInput();
 
+    AVL getTree() {
+        return tree;
+    }
+
     void setRunXTimes();
 
     std::vector<std::string> getInstructions();
+    void setInstructions(std::string instr) { //for testing
+        instructions.push_back(instr);
+    }
 
     void determineInstructions();
 
@@ -30,7 +36,6 @@ class captureInput
     void handleInsert(std::string input);
     void handleRemove(std::string input);
     void handleRemoveInorder(std::string input);
-
     void badInput();
 
 };

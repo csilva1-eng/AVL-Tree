@@ -3,6 +3,8 @@
 //
 #ifndef AVL_H
 #define AVL_H
+#include <iostream>
+#include <ostream>
 #include <vector>
 
 
@@ -26,11 +28,20 @@ public:
         return root;
     }
 
+
+    //===================================================INSERT/REMOVE STUFF==========================================//
    void insert(std::string name, int UFid) {
+        if (!checkString(name)) return;
+        if (!checkInt(UFid)) return;
         root = recInsertNameId(root, name, UFid);
     }
 
+    bool checkString(std::string name);
+
+    bool checkInt(int UFid);
+
     void removeById(int UFid) {
+        if (!checkInt(UFid)) return;
         root = removeId(root, UFid);
     }
 
@@ -40,27 +51,45 @@ public:
     }
 
     TreeNode* recInsertNameId(TreeNode *root, std::string name, int UFid);
-
     TreeNode* removeId(TreeNode* root, int UFid);
     TreeNode* handleRemove(TreeNode* node);
     TreeNode* findInorderSuccessor(TreeNode* node);
+    TreeNode* removeInorderN(TreeNode* root, int N, int &count);
+
+
+    //===================================================END INSERT/REMOVE STUFF======================================//
 
 
 
-    std::string searchIDTEST(TreeNode* root, int UFid);
-    void searchID(TreeNode* root, int UFid);
+    //===================================================SEARCH STUFF=================================================//
 
     void search(std::string name, int id, int which) {
         if (which == 0) {
+            if (!checkInt(id)) return;
             searchID(this->root, id);
         } else if (which == 1) {
+            if (!checkString(name)) return;
             searchName(this->root, name);
         }
     }
-    void searchName(TreeNode* root, std::string name);
-    std::vector<std::string> searchNameTEST(TreeNode* root, std::string name);
 
-    void recSearchName(TreeNode* root, std::string name, std::vector<std::string>& names);
+    void searchID(TreeNode* root, int UFid);
+    void searchName(TreeNode* root, std::string name);
+    void recSearchName(TreeNode* root, std::string name, std::vector<int>& UFids);
+
+    std::string searchIDTEST(TreeNode* root, int UFid);
+    std::vector<int> searchNameTEST(TreeNode* root, std::string name);
+
+    //===================================================END SEARCH STUFF=============================================//
+
+
+
+    //===================================================PRINT STUFF=======================================================//
+    void PLC() {
+        int count = printLevelCount(this->root);
+        std::cout << count << std::endl;
+    }
+
     std::vector<std::string> printInorder();
     void recPrintInorder(TreeNode* root, std::vector<std::string>& names);
     std::vector<std::string> printPreorder();
@@ -68,19 +97,15 @@ public:
     std::vector<std::string> printPostorder();
     void recPrintPostorder(TreeNode* root, std::vector<std::string>& names);
     int printLevelCount(TreeNode* root);
-    void PLC() {
-        printLevelCount(this->root);
-    }
-    TreeNode* removeInorderN(TreeNode* root, int N, int &count);
 
+
+    //===================================================BALANCE STUFF================================================//
     TreeNode* balanceTree(TreeNode* root);
     TreeNode* rotateRight(TreeNode* root);
     TreeNode* rotateLeft(TreeNode* root);
     int getBalanceFactor(TreeNode* root);
     void updateHeight(TreeNode* node);
-
-
-
+    //===================================================END BALANCE STUFF============================================//
 
 
 };
