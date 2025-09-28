@@ -195,18 +195,18 @@ AVL::TreeNode* AVL::removeInorderN(TreeNode* node, int N, int &count){
 //===================================================SEARCH STUFF=====================================================//
 
 void AVL::searchID(AVL::TreeNode* node, int UFid){ //recursively search for UFid and print name
+  if (!node) {std::cout << "unsuccessful" << std::endl; return;}
     std::string foundName = "";
-    TreeNode* current = node;
 
-    while(current && current->UFID != UFid){
-      if(current->UFID > UFid){
-        current = current->left;
+    while(node && node->UFID != UFid){
+      if(node->UFID > UFid){
+        node = node->left;
       } else {
-        current = current->right;
+        node = node->right;
       }
     }
-    if(current->UFID == UFid){
-      foundName = current->name;
+    if(node->UFID == UFid){
+      foundName = node->name;
       std::cout<< foundName <<std::endl;
       return;
     }
@@ -236,10 +236,9 @@ std::string AVL::searchIDTEST(AVL::TreeNode* node, int UFid){ //this is jsut for
 void AVL::searchName(AVL::TreeNode* node, std::string name){ //NLR
     std::vector<int> UFids;
 
-    TreeNode* current = node;
 
-    recSearchName(current, name, UFids);
-
+    recSearchName(node, name, UFids);
+  if (UFids.size() == 0){std::cout << "unsuccessful" << std::endl;return;}
   for (auto number : UFids) {
     std::cout << number << std::endl;
   }
@@ -250,9 +249,8 @@ void AVL::searchName(AVL::TreeNode* node, std::string name){ //NLR
 std::vector<int> AVL::searchNameTEST(TreeNode* node, std::string name){ //NLR this is just for testing so i can have the vector
   std::vector<int> UFids;
 
-  TreeNode* current = node;
 
-  recSearchName(current, name, UFids);
+  recSearchName(node, name, UFids);
 
   for (auto number : UFids) {
     std::cout << number << std::endl;
@@ -263,18 +261,16 @@ std::vector<int> AVL::searchNameTEST(TreeNode* node, std::string name){ //NLR th
 
 void AVL::recSearchName(AVL::TreeNode* node, std::string name, std::vector<int>& UFids){
   if(!node){
-    std::cout<<"unsuccessful"<<std::endl;
     return;
   }
 
-  TreeNode* current = node;
 
-  if(current->name == name){
-    UFids.push_back(current->UFID);
+  if(node->name == name){
+    UFids.push_back(node->UFID);
   }
 
-  recSearchName(current->left, name, UFids);
-  recSearchName(current->right, name, UFids);
+  recSearchName(node->left, name, UFids);
+  recSearchName(node->right, name, UFids);
 
 }
 

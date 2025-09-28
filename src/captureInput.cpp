@@ -124,6 +124,7 @@ void captureInput::handleRemoveInorder(std::string input){
 
 
 void captureInput::handleSearch(std::string input){
+
   std::string check = input;
   if (input[0] == '\"') {
     input = input.substr(1);
@@ -136,6 +137,9 @@ void captureInput::handleSearch(std::string input){
   }
 
   input = check;
+
+
+
   bool isName = true;
   bool isId = true;
   for(auto i : input){
@@ -148,10 +152,8 @@ void captureInput::handleSearch(std::string input){
   }
 
   if(!isName && !isId){ badInput(); return;}
-
-
   if(isId){
-    tree.search("", std::stoi(input), 0);
+    tree.search("nothing", std::stoi(input), 0);
     } else if(isName){
       tree.search(input, 0, 1);
     }
