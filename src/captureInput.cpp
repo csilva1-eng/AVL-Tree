@@ -42,7 +42,6 @@ void captureInput::determineInstructions(){ //determine what to do with each ins
      int firstSpace = input.find_first_of(' ');
      std::string orderGiven = input.substr(0, firstSpace);
 
-
      if(orderGiven == "insert"){
        handleInsert(input.substr(firstSpace+1));
      } else if(orderGiven == "remove"){
@@ -125,10 +124,20 @@ void captureInput::handleRemoveInorder(std::string input){
 
 
 void captureInput::handleSearch(std::string input){
-  input = input.substr(1);
+  std::string name;
+  if (input[0] == '\"') {
+    input = input.substr(1);
+    if (input.find_first_of('\"') != std::string::npos) {
+      name = input.substr(0, input.find_first_of('\"'));
+    } else {
+      badInput();
+      return;
+    }
+  }
+  std::cout << name << std::endl;
   bool isName = true;
   bool isId = true;
-  for(auto i : input){
+  for(auto i : name){
     if(!isalpha(i) && i != ' '){ isName = false;}
   }
 
@@ -141,13 +150,13 @@ void captureInput::handleSearch(std::string input){
   if(isId){
     tree.search("", std::stoi(input), 0);
     } else if(isName){
-      tree.search(input, 0, 1);
+      tree.search(name, 0, 1);
     }
 
 }
 
 void captureInput::badInput(){
-  std::cout << "unsuccessful in bad input" << std::endl;
+  std::cout << "unsuccessful" << std::endl;
 }
 
 
