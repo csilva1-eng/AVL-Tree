@@ -11,7 +11,7 @@ captureInput::captureInput(){
   runXTimes = 0;
   }
 
-void captureInput::setRunXTimes(){
+void captureInput::setRunXTimes(){ //what is the number? and make sure its valid number
   std::string firstLine = "";
   std::getline(std::cin, firstLine);
   for(auto i : firstLine){
@@ -22,7 +22,7 @@ void captureInput::setRunXTimes(){
 }
 
 
-std::vector<std::string> captureInput::getInstructions(){
+std::vector<std::string> captureInput::getInstructions(){ //put all instructions into a vector to execute in order
   if (runXTimes == 0){return instructions;}
 
   for(int i = 0; i < runXTimes; i++){
@@ -36,7 +36,7 @@ std::vector<std::string> captureInput::getInstructions(){
 }
 
 
-void captureInput::determineInstructions(){
+void captureInput::determineInstructions(){ //determine what to do with each instruction, parsing to find what the first word is
   if (instructions.size() == 0){return;}
    for(std::string input : instructions){
      int firstSpace = input.find_first_of(' ');
@@ -71,7 +71,7 @@ void captureInput::determineInstructions(){
 
 //===================================================BEGIN HANDLERS STUFF=============================================//
 
-void captureInput::handleInsert(std::string input){
+void captureInput::handleInsert(std::string input){ //check if the name and id is good or not then pass into insert
   int firstSpace = input.find_first_of(' ');
   if (firstSpace == std::string::npos || input[0] != '\"' || input.find_last_of('\"') == 0) {
     std::cout << "unsuccessful" << std::endl;
