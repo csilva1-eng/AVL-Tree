@@ -1,9 +1,9 @@
 //
 // Created by Christopher Silva on 9/18/25.
 //
-#include <vector>
 #ifndef AVL_H
 #define AVL_H
+#include <vector>
 
 
 class AVL
@@ -34,6 +34,11 @@ public:
         root = removeId(root, UFid);
     }
 
+    void removeNth(int N) {
+        int count = -1;
+        root = removeInorderN(root, N, count);
+    }
+
     TreeNode* recInsertNameId(TreeNode *root, std::string name, int UFid);
 
     TreeNode* removeId(TreeNode* root, int UFid);
@@ -42,17 +47,31 @@ public:
 
 
 
-    std::string searchID(TreeNode* root, int UFid);
-    std::vector<std::string> searchName(TreeNode* root, std::string name);
+    std::string searchIDTEST(TreeNode* root, int UFid);
+    void searchID(TreeNode* root, int UFid);
+
+    void search(std::string name, int id, int which) {
+        if (which == 0) {
+            searchID(this->root, id);
+        } else if (which == 1) {
+            searchName(this->root, name);
+        }
+    }
+    void searchName(TreeNode* root, std::string name);
+    std::vector<std::string> searchNameTEST(TreeNode* root, std::string name);
+
     void recSearchName(TreeNode* root, std::string name, std::vector<std::string>& names);
     std::vector<std::string> printInorder();
     void recPrintInorder(TreeNode* root, std::vector<std::string>& names);
-    std::vector<std::string> printPreorder(TreeNode* root);
+    std::vector<std::string> printPreorder();
     void recPrintPreorder(TreeNode* root, std::vector<std::string>& names);
-    std::vector<std::string> printPostorder(TreeNode* root);
+    std::vector<std::string> printPostorder();
     void recPrintPostorder(TreeNode* root, std::vector<std::string>& names);
     int printLevelCount(TreeNode* root);
-    std::vector<int> removeInorderN(TreeNode* root);
+    void PLC() {
+        printLevelCount(this->root);
+    }
+    TreeNode* removeInorderN(TreeNode* root, int N, int &count);
 
     TreeNode* balanceTree(TreeNode* root);
     TreeNode* rotateRight(TreeNode* root);

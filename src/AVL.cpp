@@ -127,13 +127,12 @@ AVL::TreeNode* AVL::removeId(TreeNode* node, int UFid){
       return node;
     }
 
-
-
-
     if(node->UFID < UFid) {
       node->right = removeId(node->right, UFid);
+      updateHeight(node);
     } else if(node->UFID > UFid) {
       node->left = removeId(node->left, UFid);
+      updateHeight(node);
     } else {
       std::cout << "successful" << std::endl;
       std::cout << "removed " << node->name << std::endl;
@@ -183,7 +182,7 @@ AVL::TreeNode* AVL::findInorderSuccessor(TreeNode* node){
 
 }
 
-std::string AVL::searchID(AVL::TreeNode* node, int UFid){
+void AVL::searchID(AVL::TreeNode* node, int UFid){
     std::string foundName = "";
     TreeNode* current = node;
 
@@ -197,20 +196,49 @@ std::string AVL::searchID(AVL::TreeNode* node, int UFid){
     if(current->UFID == UFid){
       foundName = current->name;
       std::cout<< foundName <<std::endl;
-      return foundName;
+      return;
     }
     std::cout<<"unsuccessful"<<std::endl;
-    return foundName;
 }
 
-std::vector<std::string> AVL::searchName(AVL::TreeNode* node, std::string name){ //NLR
+std::string AVL::searchIDTEST(AVL::TreeNode* node, int UFid){
+  std::string foundName = "";
+  TreeNode* current = node;
+
+  while(current && current->UFID != UFid){
+    if(current->UFID > UFid){
+      current = current->left;
+    } else {
+      current = current->right;
+    }
+  }
+  if(current->UFID == UFid){
+    foundName = current->name;
+    std::cout<< foundName <<std::endl;
+    return foundName;
+  }
+  std::cout<<"unsuccessful"<<std::endl;
+  return foundName;
+}
+
+void AVL::searchName(AVL::TreeNode* node, std::string name){ //NLR
     std::vector<std::string> names;
 
     TreeNode* current = node;
 
     recSearchName(current, name, names);
 
-    return names;
+
+}
+
+std::vector<std::string> AVL::searchNameTEST(TreeNode* node, std::string name){ //NLR
+  std::vector<std::string> names;
+
+  TreeNode* current = node;
+
+  recSearchName(current, name, names);
+
+  return names;
 }
 
 void AVL::recSearchName(AVL::TreeNode* node, std::string name, std::vector<std::string>& names){
@@ -251,16 +279,14 @@ void AVL::recPrintInorder(TreeNode* node, std::vector<std::string>& names){
   recPrintInorder(node->right, names);
 }
 
-std::vector<std::string> AVL::printPreorder(AVL::TreeNode* node){
+std::vector<std::string> AVL::printPreorder(){
     std::vector<std::string> names;
 
-    TreeNode* current = node;
-
-    recPrintPreorder(current, names);
+    recPrintPreorder(this->root, names);
     return names;
 }
 
-void AVL::recPrintPreorder(AVL::TreeNode* node, std::vector<std::string>& names){
+void AVL::recPrintPreorder(TreeNode* node, std::vector<std::string>& names){
   if(!node){
     return;
   }
@@ -274,15 +300,14 @@ void AVL::recPrintPreorder(AVL::TreeNode* node, std::vector<std::string>& names)
 }
 
 
-std::vector<std::string> AVL::printPostorder(AVL::TreeNode* node){
+std::vector<std::string> AVL::printPostorder(){
     std::vector<std::string> names;
 
-    TreeNode* current = node;
-    recPrintPostorder(current, names);
+    recPrintPostorder(this->root, names);
     return names;
 }
 
-void AVL::recPrintPostorder(AVL::TreeNode* node, std::vector<std::string>& names){
+void AVL::recPrintPostorder(TreeNode* node, std::vector<std::string>& names){
   if(!node){
     return;
   }
@@ -300,10 +325,19 @@ int AVL::printLevelCount(AVL::TreeNode* node){
     return 1 + std::max(printLevelCount(node->left), printLevelCount(node->right));
 }
 
-std::vector<int> AVL::removeInorderN(AVL::TreeNode* node){
-    std::vector<int> res;
-    std::cout<<"Enter name of AVL"<<std::endl;
-    return res;
+AVL::TreeNode* AVL::removeInorderN(TreeNode* node, int N, int &count){
+  if (!node) {
+    return nullptr;
+  }
+  if (node) count++;
+  if (count == N) {
+    node = removeId(node, node->UFID);
+    return node;
+  }
+  node->left = removeInorderN(node->left, N, count);
+  node->right = removeInorderN(node->right, N, count);
+
+  return node;
 }
 
 

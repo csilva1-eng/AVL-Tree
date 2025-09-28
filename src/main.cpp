@@ -1,9 +1,17 @@
 #include<iostream>
+#include "captureInput.h"
 #include "AVL.h"
 
 
 int main()
 {
-	AVL myAVL;
-	myAVL.inorder();
+	captureInput runner;
+
+	runner.setRunXTimes();
+
+	runner.getInstructions();
+
+	runner.determineInstructions();
+
+	return 0;
 }
