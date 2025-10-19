@@ -71,30 +71,30 @@ void captureInput::determineInstructions(){ //determine what to do with each ins
 //===================================================BEGIN HANDLERS STUFF=============================================//
 
 void captureInput::handleInsert(std::string input){ //check if the name and id is good or not then pass into insert
-  int firstSpace = input.find_first_of(' ');
-  if (firstSpace == std::string::npos || input[0] != '\"' || input.find_last_of('\"') == 0) {
+  int lastQuote = input.find_last_of('\"');
+  if (lastQuote == std::string::npos || input[0] != '\"' || input.find_last_of('\"') == 0) {
     std::cout << "unsuccessful" << std::endl;
     return;
   }
 
 
-  std::string name = input.substr(1, firstSpace-2);
-  std::string check = input.substr(firstSpace);
-  if (check.length() >= 8) {
-    input = input.substr(firstSpace+1);
-  }
+  std::string name = input.substr(1, lastQuote -1);
+  std::string check = input.substr(lastQuote + 2);
+  if (check.length() < 8) {badInput(); return;}
+
+
 
   for(auto i : name){
     if(!isalpha(i) && i != ' '){ badInput(); return;}
     }
 
-    std::string ID = input;
+    std::string ID = check;
 
     for(auto i : ID){
       if(isalpha(i) || i == ' '){ badInput(); return;}
     }
 
-    tree.insert(name, std::stoi(ID));
+    tree.insert(name, ID);
 }
 
 void captureInput::handleRemove(std::string input){
@@ -109,7 +109,7 @@ void captureInput::handleRemove(std::string input){
     return;
   }
 
-  tree.removeById(std::stoi(input));
+  tree.removeById(input);
 }
 
 void captureInput::handleRemoveInorder(std::string input){
@@ -153,7 +153,7 @@ void captureInput::handleSearch(std::string input){
 
   if(!isName && !isId){ badInput(); return;}
   if(isId){
-    tree.search("nothing", std::stoi(input), 0);
+    tree.search("nothing", input, 0);
     } else if(isName){
       tree.search(input, 0, 1);
     }

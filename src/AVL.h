@@ -13,12 +13,12 @@ class AVL
 private:
     struct TreeNode
     {
-        int UFID;
+        std::string UFID;
         std::string name;
         int height;
         TreeNode *left;
         TreeNode *right;
-        TreeNode(int x, int y, const std::string& s) : UFID(x), name(s), height(y), left(nullptr), right(nullptr){}
+        TreeNode(std::string x, int y, const std::string& s) : UFID(x), name(s), height(y), left(nullptr), right(nullptr){}
     };
 
     TreeNode* root = nullptr;
@@ -30,7 +30,7 @@ public:
 
 
     //===================================================INSERT/REMOVE STUFF==========================================//
-   void insert(std::string name, int UFid) {
+   void insert(std::string name, std::string UFid) {
         if (!checkString(name)) return;
         if (!checkInt(UFid)) return;
         root = recInsertNameId(root, name, UFid);
@@ -38,25 +38,21 @@ public:
 
     bool checkString(std::string name);
 
-    bool checkInt(int UFid);
+    bool checkInt(std::string UFid);
 
-    void removeById(int UFid) {
+    void removeById(std::string UFid) {
         if (!checkInt(UFid)) return;
         root = removeId(root, UFid);
     }
 
     void removeNth(int N) {
         int count = -1;
-        if (N == 0) {
-            root = removeId(root, root->UFID);
-            return;
-        }
         root = removeInorderN(root, N, count);
     }
 
-    TreeNode* recInsertNameId(TreeNode *root, std::string name, int UFid);
-    TreeNode* removeId(TreeNode* root, int UFid);
-    TreeNode* removeSuccessorId(TreeNode* node, int UFid); //only here to avoid saying success twice
+    TreeNode* recInsertNameId(TreeNode *root, std::string name, std::string UFid);
+    TreeNode* removeId(TreeNode* root, std::string UFid);
+    TreeNode* removeSuccessorId(TreeNode* node, std::string UFid); //only here to avoid saying success twice
     TreeNode* handleRemove(TreeNode* node);
     TreeNode* findInorderSuccessor(TreeNode* node);
     TreeNode* removeInorderN(TreeNode* root, int N, int &count);
@@ -68,7 +64,7 @@ public:
 
     //===================================================SEARCH STUFF=================================================//
 
-    void search(std::string name, int id, int which) {
+    void search(std::string name, std::string id, int which) {
         if (which == 0) {
             if (!checkInt(id)) return;
             searchID(this->root, id);
@@ -78,12 +74,12 @@ public:
         }
     }
 
-    void searchID(TreeNode* root, int UFid);
+    void searchID(TreeNode* root, std::string UFid);
     void searchName(TreeNode* root, std::string name);
-    void recSearchName(TreeNode* root, std::string name, std::vector<int>& UFids);
+    void recSearchName(TreeNode* root, std::string name, std::vector<std::string>& UFids);
 
-    std::string searchIDTEST(TreeNode* root, int UFid);
-    std::vector<int> searchNameTEST(TreeNode* root, std::string name);
+    std::string searchIDTEST(TreeNode* root, std::string UFid);
+    std::vector<std::string> searchNameTEST(TreeNode* root, std::string name);
 
     //===================================================END SEARCH STUFF=============================================//
 

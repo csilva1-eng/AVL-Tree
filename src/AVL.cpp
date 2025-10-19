@@ -88,32 +88,30 @@ bool AVL::checkString(std::string name) { //check if string is a valid string be
   return true;
 }
 
-bool AVL::checkInt(int UFid) { //check if int is a valid int before input into anything
-  int count = 0;
-  int checker = UFid;
+bool AVL::checkInt(std::string UFid) {
 
-  while(checker > 0) {
-    checker = checker / 10;
-    count++;
+  if (UFid.length() != 8) {std::cout << "unsuccessful" <<  std::endl; return false;}
+  for(auto i : UFid) {
+    if(isalpha(i) || i == ' '){return false;}
   }
-
-  if (count != 8) {std::cout << "unsuccessful" <<  std::endl; return false;}
-  return true;
+    return true;
 }
 
 
 
-AVL::TreeNode* AVL::recInsertNameId(TreeNode *node, std::string name, int UFid){ //recursively search to find where to insert new node
+AVL::TreeNode* AVL::recInsertNameId(TreeNode *node, std::string name, std::string UFid){ //recursively search to find where to insert new node
   if(!node) {
     std::cout << "successful" << std::endl;
     return new TreeNode(UFid, 1, name);
   }
+  int nodesId = std::stoi(node->UFID);
+  int newNodesId = std::stoi(UFid);
 
-  if(node->UFID > UFid){
+  if(nodesId > newNodesId){
     node->left = recInsertNameId(node->left, name, UFid);
-  } else if(node->UFID < UFid) {
+  } else if(nodesId < newNodesId) {
     node->right =  recInsertNameId(node->right, name, UFid);
-  }else if(node->UFID == UFid) {
+  }else if(nodesId == newNodesId) {
      std::cout << "unsuccessful" << std::endl;
      return node;
   }
@@ -123,16 +121,18 @@ AVL::TreeNode* AVL::recInsertNameId(TreeNode *node, std::string name, int UFid){
 }
 
 
-AVL::TreeNode* AVL::removeId(TreeNode* node, int UFid){ // recursively search to find node to remove
+AVL::TreeNode* AVL::removeId(TreeNode* node, std::string UFid){ // recursively search to find node to remove
     if(!node ) {
       std::cout << "unsuccessful" << std::endl;
       return node;
     }
+  int nodesId = std::stoi(node->UFID);
+  int removeNodesId = std::stoi(UFid);
 
-    if(node->UFID < UFid) {
+    if(nodesId < removeNodesId) {
       node->right = removeId(node->right, UFid);
       updateHeight(node);
-    } else if(node->UFID > UFid) {
+    } else if(nodesId > removeNodesId) {
       node->left = removeId(node->left, UFid);
       updateHeight(node);
     } else {
@@ -162,16 +162,18 @@ AVL::TreeNode* AVL::handleRemove(TreeNode* node){ //handles all three removal ca
 
 }
 
-AVL::TreeNode* AVL::removeSuccessorId(TreeNode* node, int UFid){ // this is to remove successor (really to avoid saying success twice)
+AVL::TreeNode* AVL::removeSuccessorId(TreeNode* node, std::string UFid){ // this is to remove successor (really to avoid saying success twice)
   if(!node ) {
     std::cout << "unsuccessful" << std::endl;
     return node;
   }
+  int nodesId = std::stoi(node->UFID);
+  int removeNodesId = std::stoi(UFid);
 
-  if(node->UFID < UFid) {
+  if(nodesId < removeNodesId) {
     node->right = removeId(node->right, UFid);
     updateHeight(node);
-  } else if(node->UFID > UFid) {
+  } else if(nodesId > removeNodesId) {
     node->left = removeId(node->left, UFid);
     updateHeight(node);
   } else {
@@ -196,12 +198,13 @@ AVL::TreeNode* AVL::removeInorderN(TreeNode* node, int N, int &count){
   if (!node) {
     return nullptr;
   }
+
+  node->left = removeInorderN(node->left, N, count);
   if (node) count++;
   if (count == N) {
     node = removeId(node, node->UFID);
     return node;
   }
-  node->left = removeInorderN(node->left, N, count);
   node->right = removeInorderN(node->right, N, count);
 
   return node;
@@ -213,18 +216,23 @@ AVL::TreeNode* AVL::removeInorderN(TreeNode* node, int N, int &count){
 
 //===================================================SEARCH STUFF=====================================================//
 
-void AVL::searchID(AVL::TreeNode* node, int UFid){ //recursively search for UFid and print name
+void AVL::searchID(AVL::TreeNode* node, std::string UFid){ //recursively search for UFid and print name
   if (!node) {std::cout << "unsuccessful" << std::endl; return;}
     std::string foundName = "";
-
+  int nodesId;
+  int searchNodesId;
     while(node && node->UFID != UFid){
-      if(node->UFID > UFid){
+       nodesId = std::stoi(node->UFID);
+       searchNodesId = std::stoi(UFid);
+
+      if(nodesId > searchNodesId){
         node = node->left;
       } else {
         node = node->right;
       }
     }
-    if(node->UFID == UFid){
+
+    if(nodesId == searchNodesId){
       foundName = node->name;
       std::cout<< foundName <<std::endl;
       return;
@@ -232,7 +240,7 @@ void AVL::searchID(AVL::TreeNode* node, int UFid){ //recursively search for UFid
     std::cout<<"unsuccessful"<<std::endl;
 }
 
-std::string AVL::searchIDTEST(AVL::TreeNode* node, int UFid){ //this is jsut for testing so i can have the string it returns
+std::string AVL::searchIDTEST(AVL::TreeNode* node, std::string UFid){ //this is jsut for testing so i can have the string it returns
   std::string foundName = "";
   TreeNode* current = node;
 
@@ -253,7 +261,7 @@ std::string AVL::searchIDTEST(AVL::TreeNode* node, int UFid){ //this is jsut for
 }
 
 void AVL::searchName(AVL::TreeNode* node, std::string name){ //NLR
-    std::vector<int> UFids;
+    std::vector<std::string> UFids;
 
 
     recSearchName(node, name, UFids);
@@ -265,8 +273,8 @@ void AVL::searchName(AVL::TreeNode* node, std::string name){ //NLR
 
 }
 
-std::vector<int> AVL::searchNameTEST(TreeNode* node, std::string name){ //NLR this is just for testing so i can have the vector
-  std::vector<int> UFids;
+std::vector<std::string> AVL::searchNameTEST(TreeNode* node, std::string name){ //NLR this is just for testing so i can have the vector
+  std::vector<std::string> UFids;
 
 
   recSearchName(node, name, UFids);
@@ -278,7 +286,7 @@ std::vector<int> AVL::searchNameTEST(TreeNode* node, std::string name){ //NLR th
   return UFids;
 }
 
-void AVL::recSearchName(AVL::TreeNode* node, std::string name, std::vector<int>& UFids){
+void AVL::recSearchName(AVL::TreeNode* node, std::string name, std::vector<std::string>& UFids){
   if(!node){
     return;
   }
