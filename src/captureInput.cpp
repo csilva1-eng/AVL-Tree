@@ -151,11 +151,12 @@ void captureInput::handleSearch(std::string input){
     if(isalpha(i) || i == ' '){ isId = false;}
   }
 
+
   if(!isName && !isId){ badInput(); return;}
   if(isId){
     tree.search("nothing", input, 0);
     } else if(isName){
-      tree.search(input, 0, 1);
+      tree.search(input, "0", 1);
     }
 
 }

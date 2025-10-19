@@ -219,11 +219,11 @@ AVL::TreeNode* AVL::removeInorderN(TreeNode* node, int N, int &count){
 void AVL::searchID(AVL::TreeNode* node, std::string UFid){ //recursively search for UFid and print name
   if (!node) {std::cout << "unsuccessful" << std::endl; return;}
     std::string foundName = "";
+
   int nodesId;
-  int searchNodesId;
+  int searchNodesId = std::stoi(UFid);
     while(node && node->UFID != UFid){
        nodesId = std::stoi(node->UFID);
-       searchNodesId = std::stoi(UFid);
 
       if(nodesId > searchNodesId){
         node = node->left;
@@ -231,6 +231,7 @@ void AVL::searchID(AVL::TreeNode* node, std::string UFid){ //recursively search 
         node = node->right;
       }
     }
+    nodesId = node != nullptr ? std::stoi(node->UFID) : 0;
 
     if(nodesId == searchNodesId){
       foundName = node->name;
