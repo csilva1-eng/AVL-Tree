@@ -47,6 +47,10 @@ public:
 
     void removeNth(int N) {
         int count = -1;
+        if (N == 0) {
+            root = removeId(root, root->UFID);
+            return;
+        }
         root = removeInorderN(root, N, count);
     }
 
